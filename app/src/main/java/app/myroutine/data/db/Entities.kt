@@ -3,6 +3,7 @@ package app.myroutine.data.db
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
 
 /*
  * 동기화 대비 공통 필드: id(UUID 문자열), userId, createdAt, updatedAt, deletedAt(soft delete).
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey
  * FK 는 걸지 않는다: soft delete / 서버 동기화 순서와 충돌하지 않게 하기 위함.
  */
 
+@Serializable
 @Entity(tableName = "routines", indices = [Index("userId")])
 data class RoutineEntity(
     @PrimaryKey val id: String,
@@ -32,6 +34,7 @@ data class RoutineEntity(
     val deletedAt: Long? = null,
 )
 
+@Serializable
 @Entity(tableName = "repeat_rules", indices = [Index("routineId")])
 data class RepeatRuleEntity(
     @PrimaryKey val id: String,
@@ -59,6 +62,7 @@ data class RepeatRuleEntity(
 )
 
 /** (routineId, date) 당 1행. 기록 취소는 행 삭제가 아니라 count=0/value=null 로 갱신한다. */
+@Serializable
 @Entity(
     tableName = "routine_logs",
     indices = [Index(value = ["routineId", "date"], unique = true), Index("date")],
@@ -76,6 +80,7 @@ data class RoutineLogEntity(
     val deletedAt: Long? = null,
 )
 
+@Serializable
 @Entity(tableName = "tags", indices = [Index("userId")])
 data class TagEntity(
     @PrimaryKey val id: String,
@@ -88,6 +93,7 @@ data class TagEntity(
     val deletedAt: Long? = null,
 )
 
+@Serializable
 @Entity(
     tableName = "routine_tags",
     indices = [Index(value = ["routineId", "tagId"], unique = true), Index("tagId")],
@@ -102,6 +108,7 @@ data class RoutineTagEntity(
     val deletedAt: Long? = null,
 )
 
+@Serializable
 @Entity(tableName = "todos", indices = [Index("date")])
 data class TodoEntity(
     @PrimaryKey val id: String,

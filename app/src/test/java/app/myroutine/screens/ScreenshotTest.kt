@@ -3,6 +3,7 @@ package app.myroutine.screens
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performScrollToNode
@@ -77,6 +78,23 @@ class ScreenshotTest {
         compose.onNodeWithText("1Y").performClick(); shot("22_timeline_1w")
         compose.onNode(androidx.compose.ui.test.hasScrollAction()).performScrollToNode(androidx.compose.ui.test.hasText("몸무게", substring = true))
         compose.onNodeWithText("몸무게", substring = true).performClick(); shot("23_detail_numeric")
+    }
+
+    @Test fun phase7_screens() {
+        compose.onNodeWithText("추천루틴").performClick(); shot("30_templates")
+        compose.onNodeWithText("물 2L 마시기", substring = true, useUnmergedTree = true).let { compose.onAllNodesWithText("물 2L 마시기", substring = true)[0].performClick() }
+        shot("31_edit_from_template")
+        compose.onNodeWithContentDescription("뒤로").performClick()
+        compose.onNodeWithText("내정보").performClick(); shot("32_profile")
+        compose.onNodeWithText("알림 설정").performClick(); shot("33_notifications")
+        compose.onNodeWithContentDescription("뒤로").performClick()
+        compose.onNodeWithText("데이터 백업/복원").performClick(); shot("34_backup")
+        compose.onNodeWithContentDescription("뒤로").performClick()
+        compose.onNodeWithText("루틴 및 할 일 설정").performClick()
+        compose.onNodeWithText("태그 관리").performClick(); shot("35_tags")
+        compose.onNodeWithContentDescription("뒤로").performClick()
+        compose.onNodeWithContentDescription("뒤로").performClick()
+        compose.onNodeWithText("위젯 가이드").performClick(); shot("36_widget_guide")
     }
 
     @Test fun add_and_edit() {

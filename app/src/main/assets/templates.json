@@ -1,1 +1,752 @@
-{"categories":[]}
+{
+ "categories": [
+  {
+   "key": "popular",
+   "title": "인기",
+   "emoji": "🔥",
+   "items": [
+    {
+     "key": "meditate5",
+     "emoji": "🧘",
+     "name": "5분 명상",
+     "period": "daily"
+    },
+    {
+     "key": "water2l",
+     "emoji": "💧",
+     "name": "물 2L 마시기",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "stretch_turtle",
+     "emoji": "🦒",
+     "name": "거북목 스트레칭",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "run2k",
+     "emoji": "🏃",
+     "name": "2km 러닝",
+     "period": "anytime",
+     "target": 3,
+     "tag": "운동"
+    },
+    {
+     "key": "hobby",
+     "emoji": "🎨",
+     "name": "새로운 취미 도전",
+     "period": "monthly",
+     "monthDays": [
+      1
+     ]
+    },
+    {
+     "key": "cheer",
+     "emoji": "💌",
+     "name": "나를 위한 응원 한마디",
+     "period": "daily"
+    },
+    {
+     "key": "no_phone_bed",
+     "emoji": "📵",
+     "name": "잠들기 전 스마트폰 보지 않기",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "vitamin",
+     "emoji": "💊",
+     "name": "영양제 먹기",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "read10",
+     "emoji": "📚",
+     "name": "10분 독서",
+     "period": "daily"
+    },
+    {
+     "key": "gym3",
+     "emoji": "🏋️",
+     "name": "헬스",
+     "period": "anytime",
+     "target": 3,
+     "tag": "운동"
+    }
+   ]
+  },
+  {
+   "key": "morning",
+   "title": "미라클 모닝",
+   "emoji": "☀️",
+   "items": [
+    {
+     "key": "make_bed",
+     "emoji": "🛏️",
+     "name": "이불 정리",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "wake6",
+     "emoji": "⏰",
+     "name": "6시 전에 기상",
+     "period": "daily",
+     "time": "06:00",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "morning_water",
+     "emoji": "🥛",
+     "name": "아침 물 한 잔",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "morning_stretch",
+     "emoji": "🤸",
+     "name": "모닝 스트레칭",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "morning_music",
+     "emoji": "🎧",
+     "name": "상쾌한 음악 감상",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "sunscreen",
+     "emoji": "🧴",
+     "name": "선크림 바르기",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    },
+    {
+     "key": "plan_day",
+     "emoji": "📅",
+     "name": "오늘 일정 확인",
+     "period": "daily",
+     "tag": "미라클 모닝"
+    }
+   ]
+  },
+  {
+   "key": "health",
+   "title": "건강",
+   "emoji": "🌱",
+   "items": [
+    {
+     "key": "h_water",
+     "emoji": "💧",
+     "name": "물 2L 마시기",
+     "period": "daily",
+     "target": 8,
+     "tag": "건강"
+    },
+    {
+     "key": "h_meditate",
+     "emoji": "🧘",
+     "name": "명상하기",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "h_walk",
+     "emoji": "🚶",
+     "name": "산책하기",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "h_probiotic",
+     "emoji": "💊",
+     "name": "유산균 먹기",
+     "period": "daily",
+     "tag": "건강"
+    },
+    {
+     "key": "weight",
+     "emoji": "⚖️",
+     "name": "몸무게 기록",
+     "period": "daily",
+     "numeric": true,
+     "unit": "kg",
+     "tag": "건강"
+    },
+    {
+     "key": "h_floss",
+     "emoji": "🦷",
+     "name": "치실 사용하기",
+     "period": "daily",
+     "tag": "건강"
+    }
+   ]
+  },
+  {
+   "key": "exercise",
+   "title": "운동",
+   "emoji": "💪",
+   "items": [
+    {
+     "key": "e_run",
+     "emoji": "🏃",
+     "name": "2km 러닝",
+     "period": "anytime",
+     "target": 3,
+     "tag": "운동"
+    },
+    {
+     "key": "e_hike",
+     "emoji": "⛰️",
+     "name": "등산",
+     "period": "weekend",
+     "tag": "운동"
+    },
+    {
+     "key": "e_bike",
+     "emoji": "🚴",
+     "name": "자전거 타기",
+     "period": "anytime",
+     "target": 2,
+     "tag": "운동"
+    },
+    {
+     "key": "e_gym",
+     "emoji": "🏋️",
+     "name": "헬스",
+     "period": "anytime",
+     "target": 3,
+     "tag": "운동"
+    },
+    {
+     "key": "e_home",
+     "emoji": "🤸",
+     "name": "홈 트레이닝",
+     "period": "anytime",
+     "target": 3,
+     "tag": "운동"
+    },
+    {
+     "key": "e_yoga",
+     "emoji": "🧘",
+     "name": "20분 요가",
+     "period": "daily",
+     "tag": "운동"
+    },
+    {
+     "key": "e_swim",
+     "emoji": "🏊",
+     "name": "수영",
+     "period": "anytime",
+     "target": 2,
+     "tag": "운동"
+    },
+    {
+     "key": "e_pushup",
+     "emoji": "💪",
+     "name": "팔굽혀펴기",
+     "period": "daily",
+     "target": 3,
+     "tag": "운동"
+    },
+    {
+     "key": "e_pilates",
+     "emoji": "🤸",
+     "name": "필라테스",
+     "period": "anytime",
+     "target": 2,
+     "tag": "운동"
+    }
+   ]
+  },
+  {
+   "key": "life",
+   "title": "생활",
+   "emoji": "🏠",
+   "items": [
+    {
+     "key": "weather",
+     "emoji": "🌤️",
+     "name": "오늘 날씨 확인",
+     "period": "daily"
+    },
+    {
+     "key": "l_read",
+     "emoji": "📚",
+     "name": "10분 독서",
+     "period": "daily"
+    },
+    {
+     "key": "tea",
+     "emoji": "🍵",
+     "name": "차 한잔",
+     "period": "daily"
+    },
+    {
+     "key": "shower",
+     "emoji": "🚿",
+     "name": "샤워하기",
+     "period": "daily"
+    },
+    {
+     "key": "call_family",
+     "emoji": "📞",
+     "name": "가족에게 연락",
+     "period": "weekly",
+     "days": "SUN"
+    }
+   ]
+  },
+  {
+   "key": "clean",
+   "title": "청소",
+   "emoji": "✨",
+   "items": [
+    {
+     "key": "c_room",
+     "emoji": "🧹",
+     "name": "방 청소",
+     "period": "daily",
+     "tag": "청소"
+    },
+    {
+     "key": "c_bath",
+     "emoji": "🚽",
+     "name": "화장실 청소",
+     "period": "weekly",
+     "days": "SAT",
+     "tag": "청소"
+    },
+    {
+     "key": "c_air",
+     "emoji": "🪟",
+     "name": "환기하기",
+     "period": "daily",
+     "tag": "청소"
+    },
+    {
+     "key": "c_laundry",
+     "emoji": "🧺",
+     "name": "세탁하기",
+     "period": "weekly",
+     "days": "WED,SUN",
+     "tag": "청소"
+    },
+    {
+     "key": "c_trash",
+     "emoji": "🗑️",
+     "name": "분리수거",
+     "period": "weekly",
+     "days": "TUE",
+     "tag": "청소"
+    }
+   ]
+  },
+  {
+   "key": "growth",
+   "title": "자기계발",
+   "emoji": "🚀",
+   "items": [
+    {
+     "key": "g_books",
+     "emoji": "📚",
+     "name": "책 읽기",
+     "period": "monthly",
+     "monthDays": [
+      1,
+      15
+     ]
+    },
+    {
+     "key": "g_draw",
+     "emoji": "🎨",
+     "name": "그림 그리기",
+     "period": "anytime",
+     "target": 2
+    },
+    {
+     "key": "g_write",
+     "emoji": "✍️",
+     "name": "글쓰기",
+     "period": "daily"
+    },
+    {
+     "key": "g_blog",
+     "emoji": "💻",
+     "name": "블로그 포스팅",
+     "period": "anytime",
+     "target": 1
+    },
+    {
+     "key": "g_lang",
+     "emoji": "🌐",
+     "name": "외국어 공부",
+     "period": "daily"
+    }
+   ]
+  },
+  {
+   "key": "money",
+   "title": "경제",
+   "emoji": "💰",
+   "items": [
+    {
+     "key": "m_book",
+     "emoji": "📝",
+     "name": "가계부 작성",
+     "period": "daily"
+    },
+    {
+     "key": "m_bills",
+     "emoji": "🧾",
+     "name": "공과금 납부",
+     "period": "monthly",
+     "monthDays": [
+      25
+     ]
+    },
+    {
+     "key": "m_rent",
+     "emoji": "🏠",
+     "name": "월세 납부",
+     "period": "monthly",
+     "monthDays": [
+      1
+     ]
+    },
+    {
+     "key": "m_save",
+     "emoji": "🏦",
+     "name": "적금 넣기",
+     "period": "monthly",
+     "monthDays": [
+      10
+     ]
+    }
+   ]
+  },
+  {
+   "key": "food",
+   "title": "음식",
+   "emoji": "🍽️",
+   "items": [
+    {
+     "key": "f_water",
+     "emoji": "💧",
+     "name": "물 2L 마시기",
+     "period": "daily",
+     "tag": "음식"
+    },
+    {
+     "key": "f_salad",
+     "emoji": "🥗",
+     "name": "샐러드 먹기",
+     "period": "daily",
+     "tag": "음식"
+    },
+    {
+     "key": "f_breakfast",
+     "emoji": "🍳",
+     "name": "아침 먹기",
+     "period": "daily",
+     "tag": "음식"
+    },
+    {
+     "key": "f_lunch",
+     "emoji": "🍱",
+     "name": "점심 먹기",
+     "period": "daily",
+     "tag": "음식"
+    },
+    {
+     "key": "f_dinner",
+     "emoji": "🍲",
+     "name": "저녁 먹기",
+     "period": "daily",
+     "tag": "음식"
+    }
+   ]
+  },
+  {
+   "key": "sleep",
+   "title": "취침",
+   "emoji": "🛌",
+   "items": [
+    {
+     "key": "s_teeth",
+     "emoji": "🪥",
+     "name": "자기 전 양치",
+     "period": "daily",
+     "tag": "취침"
+    },
+    {
+     "key": "s_grateful",
+     "emoji": "🙏",
+     "name": "오늘 감사했던 일 생각하기",
+     "period": "daily",
+     "tag": "취침"
+    },
+    {
+     "key": "s_12",
+     "emoji": "🌙",
+     "name": "12시 전 잠자리",
+     "period": "daily",
+     "time": "23:30",
+     "tag": "취침"
+    },
+    {
+     "key": "s_diary",
+     "emoji": "📔",
+     "name": "일기 쓰기",
+     "period": "daily",
+     "tag": "취침"
+    },
+    {
+     "key": "s_clothes",
+     "emoji": "👕",
+     "name": "내일 입을 옷 준비",
+     "period": "daily",
+     "tag": "취침"
+    }
+   ]
+  },
+  {
+   "key": "study",
+   "title": "공부",
+   "emoji": "✏️",
+   "items": [
+    {
+     "key": "st_talk",
+     "emoji": "🗣️",
+     "name": "영어 회화",
+     "period": "daily"
+    },
+    {
+     "key": "st_words",
+     "emoji": "🔤",
+     "name": "영단어 10개",
+     "period": "daily"
+    },
+    {
+     "key": "st_podcast",
+     "emoji": "🎧",
+     "name": "영어 팟캐스트 듣기",
+     "period": "daily"
+    },
+    {
+     "key": "st_review",
+     "emoji": "📖",
+     "name": "오늘 배운 것 복습",
+     "period": "daily"
+    },
+    {
+     "key": "st_study",
+     "emoji": "✏️",
+     "name": "공부하기",
+     "period": "daily",
+     "target": 3
+    }
+   ]
+  },
+  {
+   "key": "productivity",
+   "title": "생산성",
+   "emoji": "📈",
+   "items": [
+    {
+     "key": "p_plan",
+     "emoji": "📅",
+     "name": "오늘 일정 확인",
+     "period": "daily"
+    },
+    {
+     "key": "p_tidy",
+     "emoji": "🗂️",
+     "name": "10분 정리 정돈",
+     "period": "daily"
+    },
+    {
+     "key": "p_inbox",
+     "emoji": "✉️",
+     "name": "메일함 비우기",
+     "period": "daily"
+    },
+    {
+     "key": "p_review",
+     "emoji": "📝",
+     "name": "주간 회고",
+     "period": "weekly",
+     "days": "SUN"
+    }
+   ]
+  },
+  {
+   "key": "leisure",
+   "title": "여가",
+   "emoji": "🎬",
+   "items": [
+    {
+     "key": "le_hobby",
+     "emoji": "🎨",
+     "name": "새로운 취미 도전",
+     "period": "monthly",
+     "monthDays": [
+      1
+     ]
+    },
+    {
+     "key": "le_movie",
+     "emoji": "🎬",
+     "name": "영화 보기",
+     "period": "monthly",
+     "monthDays": [
+      1,
+      15
+     ]
+    },
+    {
+     "key": "le_playlist",
+     "emoji": "🎵",
+     "name": "플레이리스트 업데이트",
+     "period": "monthly",
+     "monthDays": [
+      1
+     ]
+    },
+    {
+     "key": "le_photo",
+     "emoji": "📷",
+     "name": "사진 찍기",
+     "period": "daily"
+    }
+   ]
+  },
+  {
+   "key": "pet",
+   "title": "반려동물",
+   "emoji": "🐾",
+   "items": [
+    {
+     "key": "pet_walk",
+     "emoji": "🐶",
+     "name": "강아지 산책",
+     "period": "daily"
+    },
+    {
+     "key": "pet_water",
+     "emoji": "💧",
+     "name": "물 갈아주기",
+     "period": "daily"
+    },
+    {
+     "key": "pet_play",
+     "emoji": "🐱",
+     "name": "고양이 놀아주기",
+     "period": "daily"
+    },
+    {
+     "key": "pet_food",
+     "emoji": "🍖",
+     "name": "사료 급여",
+     "period": "daily",
+     "target": 2
+    }
+   ]
+  },
+  {
+   "key": "faith",
+   "title": "신앙",
+   "emoji": "🙏",
+   "items": [
+    {
+     "key": "fa_morning",
+     "emoji": "🙏",
+     "name": "아침 기도",
+     "period": "daily"
+    },
+    {
+     "key": "fa_evening",
+     "emoji": "🙏",
+     "name": "저녁 기도",
+     "period": "daily"
+    },
+    {
+     "key": "fa_read",
+     "emoji": "📖",
+     "name": "경전 읽기",
+     "period": "daily"
+    },
+    {
+     "key": "fa_volunteer",
+     "emoji": "💗",
+     "name": "봉사활동",
+     "period": "monthly",
+     "monthDays": [
+      1
+     ]
+    },
+    {
+     "key": "fa_service",
+     "emoji": "⛪",
+     "name": "예배·법회 참석",
+     "period": "weekly",
+     "days": "SUN"
+    }
+   ]
+  },
+  {
+   "key": "ban",
+   "title": "금지",
+   "emoji": "🚫",
+   "items": [
+    {
+     "key": "b_alcohol",
+     "emoji": "🍺",
+     "name": "금주",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "b_smoke",
+     "emoji": "🚭",
+     "name": "금연",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "b_lie",
+     "emoji": "🛋️",
+     "name": "밥 먹고 바로 눕지 않기",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "b_youtube",
+     "emoji": "📵",
+     "name": "유튜브 30분만",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "b_shorts",
+     "emoji": "📱",
+     "name": "숏폼 보지 않기",
+     "period": "daily",
+     "tag": "금지"
+    },
+    {
+     "key": "b_sugar",
+     "emoji": "🍬",
+     "name": "단 음식 줄이기",
+     "period": "daily",
+     "tag": "금지"
+    }
+   ]
+  }
+ ]
+}

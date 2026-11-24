@@ -33,6 +33,11 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.compose.ui.unit.dp
 import app.myroutine.ui.home.HomeScreen
+import app.myroutine.ui.templates.TemplatesScreen
+import app.myroutine.ui.profile.ProfileScreen
+import app.myroutine.ui.profile.SettingsSection
+import app.myroutine.ui.profile.SettingsSectionScreen
+import app.myroutine.ui.profile.TagManageScreen
 import app.myroutine.ui.timeline.TimelineScreen
 import app.myroutine.ui.detail.RoutineDetailScreen
 import app.myroutine.ui.edit.RoutineEditScreen
@@ -109,14 +114,22 @@ fun AppNavHost() {
                     onEditRoutine = { id -> nav.navigate(Routes.edit(id = id)) },
                 )
             }
-            composable(TopTab.TEMPLATES.route) { Placeholder(TopTab.TEMPLATES.label) }
+            composable(TopTab.TEMPLATES.route) {
+                TemplatesScreen(onPick = { nav.navigate(Routes.edit(template = it)) }, onCustom = { nav.navigate(Routes.edit()) })
+            }
             composable(TopTab.TIMELINE.route) {
                 TimelineScreen(onOpenRoutine = { nav.navigate(Routes.detail(it)) }, onManageTags = { nav.navigate(Routes.TAGS) })
             }
             composable(Routes.DETAIL, arguments = listOf(navArgument("id") { type = NavType.StringType })) {
                 RoutineDetailScreen(onBack = { nav.popBackStack() }, onEdit = { nav.navigate(Routes.edit(id = it)) })
             }
-            composable(TopTab.PROFILE.route) { Placeholder(TopTab.PROFILE.label) }
+            composable(TopTab.PROFILE.route) {
+                ProfileScreen(onOpen = { nav.navigate("settings/${it.route}") })
+            }
+            composable("settings/{section}", arguments = listOf(navArgument("section") { type = NavType.StringType })) { entry ->
+                val section = SettingsSection.entries.firstOrNull { it.route == entry.arguments?.getString("section") } ?: SettingsSection.NOTIFICATIONS
+                SettingsSectionScreen(section, onBack = { nav.popBackStack() }, onManageTags = { nav.navigate(Routes.TAGS) })
+            }
             composable(
                 Routes.EDIT,
                 arguments = listOf(
@@ -126,7 +139,7 @@ fun AppNavHost() {
             ) {
                 RoutineEditScreen(onBack = { nav.popBackStack() }, onManageTags = { nav.navigate(Routes.TAGS) })
             }
-            composable(Routes.TAGS) { Placeholder("태그 관리") }
+            composable(Routes.TAGS) { TagManageScreen(onBack = { nav.popBackStack() }) }
         }
     }
 }

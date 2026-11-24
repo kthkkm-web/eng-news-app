@@ -12,6 +12,8 @@ import app.myroutine.domain.repository.AuthRepository
 import app.myroutine.domain.repository.TagRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,13 +54,18 @@ class TagRepositoryImpl @Inject constructor(
     }
 
     /** 최초 실행 시 기본 태그 7개. 사용자가 지운 태그는 되살리지 않는다(삭제 포함 개수로 판단). */
-    override suspend fun seedDefaultsIfEmpty() {
-        if (dao.countAll(uid) > 0) return
-        val now = time.nowMillis()
-        DEFAULT_TAGS.forEachIndexed { i, (emoji, name) ->
-            dao.upsert(TagEntity(newId(), uid, name, emoji, i, now, now))
+    override suspend fun seedDefaultsIfEmpty() = seedMutex.withLock {
+        // 고정 ID + 트랜잭션: 동시에 여러 번 호출돼도 중복 생성되지 않는다.
+        db.withTransaction {
+            if (dao.countAll(uid) > 0) return@withTransaction
+            val now = time.nowMillis()
+            DEFAULT_TAGS.forEachIndexed { i, (emoji, name) ->
+                dao.upsert(TagEntity("default-tag-$i-$uid", uid, name, emoji, i, now, now))
+            }
         }
     }
+
+    private val seedMutex = Mutex()
 
     companion object {
         val DEFAULT_TAGS = listOf(

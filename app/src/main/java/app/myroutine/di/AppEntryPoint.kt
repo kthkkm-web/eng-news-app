@@ -22,6 +22,8 @@ interface AppEntryPoint {
     fun settings(): SettingsRepository
     fun time(): TimeProvider
     fun dataChanges(): DataChanges
+    fun templates(): app.myroutine.ui.templates.TemplateRepository
+    fun backup(): app.myroutine.data.backup.BackupManager
 
     companion object {
         fun get(context: Context): AppEntryPoint =
