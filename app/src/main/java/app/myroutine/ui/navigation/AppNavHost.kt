@@ -16,6 +16,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import app.myroutine.core.DeepLinks
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,6 +61,17 @@ fun AppNavHost() {
     val current = backStack?.destination
     val showBar = TopTab.entries.any { tab -> current?.hierarchy?.any { it.route == tab.route } == true }
     val c = AppTheme.colors
+    val pendingLink by DeepLinks.pending.collectAsState()
+    LaunchedEffect(pendingLink) {
+        val route = pendingLink ?: return@LaunchedEffect
+        DeepLinks.consume()
+        val tab = TopTab.entries.firstOrNull { it.route == route }
+        if (tab != null) {
+            nav.navigate(tab.route) { popUpTo(nav.graph.findStartDestination().id) { saveState = true }; launchSingleTop = true; restoreState = true }
+        } else {
+            nav.navigate(route)
+        }
+    }
 
     Scaffold(
         containerColor = c.background,

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="12dp"
+    android:background="@drawable/widget_preview_bg">
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="일일 달성량" android:textColor="#FFF2F4F5" android:textSize="14sp"
+        android:maxLines="1" android:layout_marginTop="0dp" android:textStyle="bold" />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="11월 22일(일) - 11월 28일(토)" android:textColor="#FFA3A9B0" android:textSize="12sp"
+        android:maxLines="1" android:layout_marginTop="4dp"  />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="일  월  화  수  목  금  토" android:textColor="#FFA3A9B0" android:textSize="12sp"
+        android:maxLines="1" android:layout_marginTop="4dp"  />
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="◯  ◔  ◑  ◕  ◯  ◯  ◯" android:textColor="#FFA3A9B0" android:textSize="12sp"
+        android:maxLines="1" android:layout_marginTop="4dp"  />
+</LinearLayout>

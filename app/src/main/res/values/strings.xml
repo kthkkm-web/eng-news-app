@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">마이루틴</string>
+    <string name="widget_desc_today_routines">오늘 할 루틴을 확인하고 바로 체크해요</string>
+    <string name="widget_title_today_routines">오늘의 루틴</string>
+    <string name="widget_desc_today_todos">오늘 할 일을 확인하고 바로 체크해요</string>
+    <string name="widget_title_today_todos">오늘의 할 일</string>
+    <string name="widget_desc_month_timeline">전체 루틴 달성 현황을 한눈에 봐요</string>
+    <string name="widget_title_month_timeline">타임라인 (월간)</string>
+    <string name="widget_desc_graph_line">수치 기록을 라인 그래프로 봐요</string>
+    <string name="widget_title_graph_line">루틴 그래프 (전체)</string>
+    <string name="widget_desc_graph_bar">최근 수치 기록을 막대 그래프로 봐요</string>
+    <string name="widget_title_graph_bar">루틴 그래프 (최근)</string>
+    <string name="widget_desc_streak_flow">이번 주 연속 달성 흐름을 봐요</string>
+    <string name="widget_title_streak_flow">루틴 달성 흐름</string>
+    <string name="widget_desc_daily_ratio">날짜별 루틴 달성률을 봐요</string>
+    <string name="widget_title_daily_ratio">일일 달성량</string>
+    <string name="widget_desc_weekly_timeline">이번 주 루틴 달성을 요일별로 봐요</string>
+    <string name="widget_title_weekly_timeline">주간 타임라인</string>
 </resources>

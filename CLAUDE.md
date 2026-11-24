@@ -50,6 +50,16 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 ```
 `-Pscreenshots` 없이 돌리면 스크린샷 테스트는 건너뛴다. Robolectric 런타임 jar 는 Gradle 이 받아 오프라인 모드로 쓴다.
 
+## 위젯 구조 (`widget/`)
+- `DataWidget<T>`: Preferences 상태의 `VERSION`/`TARGET` 이 바뀌면 `load()` 를 다시 실행 → 재구성.
+- `WidgetUpdater.updateAll()`: 모든 위젯 VERSION 갱신. 앱의 `DataChanges` 신호(400ms 디바운스)와
+  `DayRolloverWorker`(하루 시작 시각마다), 위젯 액션 후에 호출.
+- 그래프·원형 링·알약은 `ChartRenderer`/`WidgetBitmaps` 로 비트맵을 그려 `Image` 로 넣는다(밀도 최대 2.5배).
+- 설정: `WidgetConfigActivity` (그래프 → 수치 루틴, 달성 흐름 → 태그/루틴, 오늘의 루틴·주간 → 태그).
+  `configuration_optional` 이라 설정 없이도 추가되고 나중에 길게 눌러 재설정 가능(Android 12+).
+- 위젯 스크린샷: `./gradlew testDebugUnitTest -Pscreenshots --tests '*WidgetScreenshotTest*'`
+  (주의: LazyColumn 목록 항목은 Robolectric 에서 렌더링되지 않음 → 실기기 확인 필요)
+
 ## 데이터 모델 원칙
 - 모든 엔티티: `id`(UUID 문자열), `userId`, `createdAt`, `updatedAt`, `deletedAt?`(soft delete)
 - 날짜 `"yyyy-MM-dd"`, 시각 `"HH:mm"` 문자열 저장. FK 없음(동기화 순서 문제 회피).
@@ -74,6 +84,8 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 13. 태그는 루틴당 여러 개 가능. 태그별 그룹에서는 해당 태그마다 표시된다.
 15. 연속 달성(streak): 해당일만 센다. 미해당일은 끊지 않고, 오늘이 아직 미완료면 어제까지 기준.
 16. 타임라인 상단 전체 잔디는 기간 전환과 무관하게 최근 약 1년(폭에 맞춰 칸 수 자동). '종료·보관' 칩 = 보관됐거나 종료일이 지난 루틴.
+17. 달성 흐름 위젯: '달성한 날' = 대상(태그/루틴/전체)의 그날 해당 루틴을 모두 완료한 날.
+18. 위젯 행 탭은 목표치를 넘기지 않는다. 수치형 루틴 행은 앱을 연다(값 입력 필요).
 14. 할 일 정렬: 미완료 → 시간 있는 것(시간순) → 시간 없는 것.
 
 ## 진행 상황
@@ -81,7 +93,7 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - [x] Phase 2: 홈(주간 스트립, +1 기록, 카드형, 스와이프) + 루틴 추가·수정 (색상 테마 시트, 이모지 시트)
 - [x] Phase 3: 보기 모드 3종, 그룹 모드, 필터, 드래그 정렬, 할 일 (Phase 2와 함께 구현)
 - [x] Phase 4: 타임라인(1W/1M/1Y, 전체 잔디, 태그별 카드) · 루틴 상세(streak, 달성률, 그래프, 월 달력)
-- [ ] Phase 5: Glance 위젯 (5a 2x2 3종 / 5b 흐름·일일·주간 / 5c 그래프 2종)
+- [x] Phase 5: Glance 위젯 8종 (오늘의 루틴·할 일·월간 / 그래프 2종 / 달성 흐름·일일 달성량·주간 타임라인), 설정 Activity, 할 일 빠른 추가, 딥링크, 하루 시작 시각 갱신 Worker
 - [ ] Phase 6: 알림
 - [ ] Phase 7: 추천루틴, 내정보 설정, 백업/복원
 - [ ] Phase 8: 마무리, 릴리스 빌드 문서

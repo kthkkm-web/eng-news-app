@@ -19,5 +19,51 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".widget.WidgetConfigActivity"
+            android:exported="true"
+            android:theme="@style/Theme.MyRoutine">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" /></intent-filter>
+        </activity>
+        <activity
+            android:name=".widget.QuickTodoActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.MyRoutine.Translucent" />
+
+        <receiver android:name=".widget.TodayRoutinesReceiver" android:exported="true" android:label="@string/widget_title_today_routines">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_today_routines" />
+        </receiver>
+        <receiver android:name=".widget.TodayTodosReceiver" android:exported="true" android:label="@string/widget_title_today_todos">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_today_todos" />
+        </receiver>
+        <receiver android:name=".widget.MonthTimelineReceiver" android:exported="true" android:label="@string/widget_title_month_timeline">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_month_timeline" />
+        </receiver>
+        <receiver android:name=".widget.GraphLineReceiver" android:exported="true" android:label="@string/widget_title_graph_line">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_graph_line" />
+        </receiver>
+        <receiver android:name=".widget.GraphBarReceiver" android:exported="true" android:label="@string/widget_title_graph_bar">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_graph_bar" />
+        </receiver>
+        <receiver android:name=".widget.StreakFlowReceiver" android:exported="true" android:label="@string/widget_title_streak_flow">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_streak_flow" />
+        </receiver>
+        <receiver android:name=".widget.DailyRatioReceiver" android:exported="true" android:label="@string/widget_title_daily_ratio">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_daily_ratio" />
+        </receiver>
+        <receiver android:name=".widget.WeeklyTimelineReceiver" android:exported="true" android:label="@string/widget_title_weekly_timeline">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_weekly_timeline" />
+        </receiver>
     </application>
 </manifest>

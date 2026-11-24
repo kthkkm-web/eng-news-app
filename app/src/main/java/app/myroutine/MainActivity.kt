@@ -1,6 +1,9 @@
 package app.myroutine
 
+import android.content.Intent
 import android.os.Bundle
+import app.myroutine.core.DeepLinks
+import app.myroutine.widget.DeepLink
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,6 +20,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        DeepLinks.push(intent?.getStringExtra(DeepLink.EXTRA_ROUTE))
         setContent {
             val vm: MainViewModel = hiltViewModel()
             val settings by vm.settings.collectAsStateWithLifecycle()
@@ -24,5 +28,10 @@ class MainActivity : ComponentActivity() {
                 AppNavHost()
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        DeepLinks.push(intent.getStringExtra(DeepLink.EXTRA_ROUTE))
     }
 }
