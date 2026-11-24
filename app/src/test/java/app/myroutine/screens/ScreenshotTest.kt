@@ -5,6 +5,7 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import app.myroutine.MainActivity
@@ -79,6 +80,10 @@ class ScreenshotTest {
             r.addCount(pod.id, today.minusDays(1), 2)
             r.setCount(study.id, today, 3)
             listOf(53.4, 53.0, 52.8, 52.6, 52.9, 52.4).forEachIndexed { i, v -> r.setValue(weight.id, today.minusDays(6L - i), v) }
+            // 타임라인용 과거 기록: 헬스 60일치 랜덤
+            val rnd = java.util.Random(7)
+            r.saveRoutine(gym.copy(startDate = today.minusDays(120)))
+            for (i in 3..120) if (rnd.nextInt(10) < 6) r.setCount(gym.id, today.minusDays(i.toLong()), 1 + rnd.nextInt(3))
             ep.todos().saveTodo(Todo(newId(), "공과금 납부", today))
             ep.todos().saveTodo(Todo(newId(), "회의", today, LocalTime.of(14, 0)))
         }
@@ -99,6 +104,14 @@ class ScreenshotTest {
         compose.onNodeWithContentDescription("보기 모드 전환").performClick()
         compose.onNodeWithText("오늘의 할 일").performClick(); shot("05_home_todos")
         compose.onNodeWithContentDescription("그룹 설정").performClick(); shot("06_group_menu")
+    }
+
+    @Test fun timeline_and_detail() {
+        compose.onNodeWithText("타임라인").performClick(); shot("20_timeline_1m")
+        compose.onNodeWithText("1M").performClick(); shot("21_timeline_1y")
+        compose.onNodeWithText("1Y").performClick(); shot("22_timeline_1w")
+        compose.onNode(androidx.compose.ui.test.hasScrollAction()).performScrollToNode(androidx.compose.ui.test.hasText("몸무게", substring = true))
+        compose.onNodeWithText("몸무게", substring = true).performClick(); shot("23_detail_numeric")
     }
 
     @Test fun add_and_edit() {

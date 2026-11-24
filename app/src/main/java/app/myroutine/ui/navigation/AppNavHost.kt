@@ -30,12 +30,16 @@ import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.compose.ui.unit.dp
 import app.myroutine.ui.home.HomeScreen
+import app.myroutine.ui.timeline.TimelineScreen
+import app.myroutine.ui.detail.RoutineDetailScreen
 import app.myroutine.ui.edit.RoutineEditScreen
 import app.myroutine.ui.theme.AppTheme
 
 object Routes {
     const val EDIT = "routine/edit?id={id}&template={template}"
     const val TAGS = "tags"
+    const val DETAIL = "routine/detail/{id}"
+    fun detail(id: String) = "routine/detail/$id"
     fun edit(id: String? = null, template: String? = null): String =
         "routine/edit?id=${id.orEmpty()}&template=${template.orEmpty()}"
 }
@@ -92,7 +96,12 @@ fun AppNavHost() {
                 )
             }
             composable(TopTab.TEMPLATES.route) { Placeholder(TopTab.TEMPLATES.label) }
-            composable(TopTab.TIMELINE.route) { Placeholder(TopTab.TIMELINE.label) }
+            composable(TopTab.TIMELINE.route) {
+                TimelineScreen(onOpenRoutine = { nav.navigate(Routes.detail(it)) }, onManageTags = { nav.navigate(Routes.TAGS) })
+            }
+            composable(Routes.DETAIL, arguments = listOf(navArgument("id") { type = NavType.StringType })) {
+                RoutineDetailScreen(onBack = { nav.popBackStack() }, onEdit = { nav.navigate(Routes.edit(id = it)) })
+            }
             composable(TopTab.PROFILE.route) { Placeholder(TopTab.PROFILE.label) }
             composable(
                 Routes.EDIT,
