@@ -64,6 +64,7 @@ import app.myroutine.ui.components.PillChip
 import app.myroutine.ui.components.SwipeAction
 import app.myroutine.ui.components.SwipeActionBox
 import app.myroutine.ui.theme.AppTheme
+import app.myroutine.notification.Notifications
 import app.myroutine.ui.theme.RoutinePalettes
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -85,6 +86,22 @@ fun RoutineEditScreen(
 
     LaunchedEffect(Unit) { vm.eventFlow.collect { if (it is EditEvent.Saved) onBack() } }
 
+    // 알림을 켠 규칙이 있으면 저장 전에 권한 확인
+    val context = androidx.compose.ui.platform.LocalContext.current
+    var exactPrompt by remember { mutableStateOf(false) }
+    val needsNotify = s.rules.any { it.rule.notify }
+    val afterPermission = {
+        if (needsNotify && !Notifications.canExact(context)) exactPrompt = true else vm.save()
+    }
+    val permLauncher = androidx.activity.compose.rememberLauncherForActivityResult(
+        androidx.activity.result.contract.ActivityResultContracts.RequestPermission(),
+    ) { afterPermission() }
+    val onSave: () -> Unit = {
+        if (needsNotify && android.os.Build.VERSION.SDK_INT >= 33 && !Notifications.canPost(context)) {
+            permLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+        } else afterPermission()
+    }
+
     Column(Modifier.fillMaxSize().background(c.surface).imePadding()) {
         // 상단 바
         Row(Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -94,7 +111,7 @@ fun RoutineEditScreen(
                 color = c.textPrimary, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f),
             )
             Box(
-                Modifier.clip(CircleShape).background(c.textPrimary).clickable(onClick = vm::save).padding(horizontal = 20.dp, vertical = 10.dp),
+                Modifier.clip(CircleShape).background(c.textPrimary).clickable(onClick = onSave).padding(horizontal = 20.dp, vertical = 10.dp),
             ) { Text(if (s.isNew) "저장" else "루틴 수정", color = c.surface, fontSize = 16.sp, fontWeight = FontWeight.Bold) }
         }
 
@@ -232,6 +249,22 @@ fun RoutineEditScreen(
         }
     }
 
+    if (exactPrompt) {
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = { exactPrompt = false; vm.save() },
+            containerColor = c.surface,
+            title = { Text("정확한 시각에 알림 받기", color = c.textPrimary) },
+            text = { Text("설정에서 '알람 및 리마인더'를 허용하면 지정한 시각에 정확히 알려드려요. 허용하지 않으면 몇 분 늦게 올 수 있어요.", color = c.textSecondary) },
+            confirmButton = {
+                androidx.compose.material3.TextButton(onClick = {
+                    exactPrompt = false
+                    runCatching { context.startActivity(Notifications.exactAlarmSettings(context)) }
+                    vm.save()
+                }) { Text("설정 열기", color = c.accent) }
+            },
+            dismissButton = { androidx.compose.material3.TextButton(onClick = { exactPrompt = false; vm.save() }) { Text("나중에", color = c.textSecondary) } },
+        )
+    }
     if (emojiSheet) EmojiPickerSheet(s.emoji, onDismiss = { emojiSheet = false }) { e -> vm.update { it.copy(emoji = e) }; emojiSheet = false }
     if (colorSheet) ColorPickerSheet(s.color, onDismiss = { colorSheet = false }) { k -> vm.update { it.copy(color = k) }; colorSheet = false }
     if (tagDialog) TagCreateDialog(onDismiss = { tagDialog = false }) { n, e -> vm.createTag(n, e); tagDialog = false }

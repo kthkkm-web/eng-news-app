@@ -60,6 +60,15 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - 위젯 스크린샷: `./gradlew testDebugUnitTest -Pscreenshots --tests '*WidgetScreenshotTest*'`
   (주의: LazyColumn 목록 항목은 Robolectric 에서 렌더링되지 않음 → 실기기 확인 필요)
 
+## 알림 구조 (`notification/`)
+- `ReminderScheduler.plan()`(순수 함수, 테스트됨) → 오늘·내일 알림 목록 → `rescheduleAll()` 이 AlarmManager 에 등록.
+  정확한 알람 권한이 없으면 `setAndAllowWhileIdle`(수 분 지연 가능)로 대체.
+- 재예약 시점: 데이터 변경(디바운스), 설정 변경, 알림 발화 직후, `DayRolloverWorker`(매일), `ReminderRefreshWorker`(6시간),
+  `RescheduleReceiver`(BOOT_COMPLETED, MY_PACKAGE_REPLACED, TIME_SET, TIMEZONE_CHANGED, 정확한 알람 권한 변경).
+- 발화 시(`ReminderReceiver.handle`) 그날 이미 목표를 채웠으면 보내지 않는다. 액션 "완료 +1" → `ReminderActionReceiver.handle`.
+- 권한: 알림을 켠 규칙을 저장할 때 POST_NOTIFICATIONS 요청, 정확한 알람이 꺼져 있으면 설정 이동 안내.
+- WorkManager 는 `Configuration.Provider` 로 초기화(App Startup 초기화 제거) — Robolectric 테스트와 동일 동작.
+
 ## 데이터 모델 원칙
 - 모든 엔티티: `id`(UUID 문자열), `userId`, `createdAt`, `updatedAt`, `deletedAt?`(soft delete)
 - 날짜 `"yyyy-MM-dd"`, 시각 `"HH:mm"` 문자열 저장. FK 없음(동기화 순서 문제 회피).
@@ -86,6 +95,7 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 16. 타임라인 상단 전체 잔디는 기간 전환과 무관하게 최근 약 1년(폭에 맞춰 칸 수 자동). '종료·보관' 칩 = 보관됐거나 종료일이 지난 루틴.
 17. 달성 흐름 위젯: '달성한 날' = 대상(태그/루틴/전체)의 그날 해당 루틴을 모두 완료한 날.
 18. 위젯 행 탭은 목표치를 넘기지 않는다. 수치형 루틴 행은 앱을 연다(값 입력 필요).
+19. 하루 시작 시각 이전의 알림 시각(예: 시작 4시, 알림 1시)은 달력상 다음 날 그 시각에 울리고 기록은 논리 날짜로 들어간다.
 14. 할 일 정렬: 미완료 → 시간 있는 것(시간순) → 시간 없는 것.
 
 ## 진행 상황
@@ -94,7 +104,7 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - [x] Phase 3: 보기 모드 3종, 그룹 모드, 필터, 드래그 정렬, 할 일 (Phase 2와 함께 구현)
 - [x] Phase 4: 타임라인(1W/1M/1Y, 전체 잔디, 태그별 카드) · 루틴 상세(streak, 달성률, 그래프, 월 달력)
 - [x] Phase 5: Glance 위젯 8종 (오늘의 루틴·할 일·월간 / 그래프 2종 / 달성 흐름·일일 달성량·주간 타임라인), 설정 Activity, 할 일 빠른 추가, 딥링크, 하루 시작 시각 갱신 Worker
-- [ ] Phase 6: 알림
+- [x] Phase 6: 알림 (정확한 알람 + 미리 알림, '완료 +1' 액션, 달성 시 생략, 재부팅/시간 변경/6시간 안전망 재예약)
 - [ ] Phase 7: 추천루틴, 내정보 설정, 백업/복원
 - [ ] Phase 8: 마무리, 릴리스 빌드 문서
 
