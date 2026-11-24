@@ -43,6 +43,19 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - 서명: `keystore/myroutine-dev.keystore`(비밀번호 `myroutine`)로 debug/release 모두 서명.
   어디서 빌드해도 같은 키 → 덮어쓰기 설치 시 데이터 유지. 공개 배포용 아님.
 
+## 릴리스 APK 빌드·설치
+```bash
+./gradlew assembleRelease     # → app/build/outputs/apk/release/app-release.apk (R8 축소, 약 3MB)
+```
+- 지금은 release 도 저장소의 개발용 키(`keystore/myroutine-dev.keystore`)로 서명한다 → debug/release/CI 빌드끼리 덮어쓰기 설치 가능.
+- 폰 설치: APK 를 폰으로 옮겨 열기 → "출처를 알 수 없는 앱 설치" 허용. 또는 `adb install -r app-release.apk`.
+- GitHub Actions: push 마다 artifact `myroutine-apk`(release+debug) 생성 → Actions 탭에서 받기.
+- 업데이트할 때는 `app/build.gradle.kts` 의 `versionCode` 를 올린다(같거나 낮으면 설치가 거부될 수 있음).
+- 나중에 Play 스토어 등 공개 배포 시: 새 업로드 키를 만들어 `signingConfigs` 에 `release` 를 추가하고,
+  비밀번호는 `~/.gradle/gradle.properties` 나 CI secret 으로 주입(저장소에 커밋 금지). 키를 바꾸면 기존 설치본 위에 덮어쓸 수 없으니
+  그 전에 앱의 '데이터 백업/복원'으로 백업할 것.
+- R8 keep 규칙: `app/proguard-rules.pro` (Glance ActionCallback, Worker, kotlinx.serialization).
+
 ## 화면 스크린샷 (시각 확인)
 에뮬레이터 없이 Robolectric + Roborazzi 로 실제 앱(Hilt+Room)을 렌더링한다.
 ```bash
@@ -109,7 +122,26 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - [x] Phase 5: Glance 위젯 8종 (오늘의 루틴·할 일·월간 / 그래프 2종 / 달성 흐름·일일 달성량·주간 타임라인), 설정 Activity, 할 일 빠른 추가, 딥링크, 하루 시작 시각 갱신 Worker
 - [x] Phase 6: 알림 (정확한 알람 + 미리 알림, '완료 +1' 액션, 달성 시 생략, 재부팅/시간 변경/6시간 안전망 재예약)
 - [x] Phase 7: 추천루틴(16개 카테고리, 89개 템플릿 JSON), 내정보·설정 화면, 태그 관리, 보관함, 백업/복원, 위젯 가이드(실데이터 미리보기)
-- [ ] Phase 8: 마무리, 릴리스 빌드 문서
+- [x] Phase 8: 빈 상태·에러 처리 점검, R8 keep 규칙, 릴리스 빌드 문서, 실기기 체크리스트
+
+## 실기기 체크리스트 (삼성 갤럭시 / One UI)
+1. 설치 후 첫 실행: 홈 빈 상태 → 추천루틴에서 템플릿 추가 → 홈에 표시되는지
+2. 홈: 탭 +1, 왼쪽 스와이프 완료 / 오른쪽 스와이프 취소 + 스낵바 '되돌리기', 꾹 눌러 순서 변경, 보기 모드 4종 전환, 그룹 3종
+3. 주간 스트립 좌우 스와이프, 월 달력에서 과거 날짜 선택 후 기록 수정
+4. 루틴 추가: 색상 테마 시트, 이모지 시트, 반복 주기 2개(평일/주말), 시간·알림·미리 알림, 수치형(kg) 루틴
+5. 알림: 1~2분 뒤 시각으로 알림 루틴 만들기 → 알림 수신 → '완료 +1' → 앱/위젯 반영. 목표 달성 후에는 알림이 오지 않는지
+6. 재부팅 후에도 알림이 오는지 (BOOT_COMPLETED 재등록)
+7. 위젯 8종 추가: 목록 위젯(오늘의 루틴·할 일·주간 타임라인)의 행 표시·스크롤·탭 동작, 그래프 위젯 크기 조절 시 다시 그려지는지
+8. 위젯 설정: 길게 눌러 '설정'(재구성) → 태그/루틴 변경 반영
+9. 하루 시작 시각 4시로 바꾸고 새벽 기록이 전날로 들어가는지, 자정/하루 시작 시각 이후 위젯 날짜가 넘어가는지
+10. 백업 파일 만들기 → 앱 데이터 삭제 → 복원
+11. **배터리 최적화 점검(One UI)**: 내정보 > 알림 설정에서 세 항목 모두 '허용됨/적용됨' 인지.
+    설정 > 배터리 > 백그라운드 사용 한도 > '사용하지 않는 앱을 절전 상태로 전환' 끄기, '절전 예외 앱'에 마이루틴 추가,
+    설정 > 애플리케이션 > 마이루틴 > 배터리 > '제한 없음'. 하루 이상 앱을 안 열어도 알림·위젯이 갱신되는지 확인.
 
 ## TODO / 메모
+- 실기기 확인 전: Glance LazyColumn 목록 항목 렌더링(Robolectric 에서는 비어 보임), 위젯 그래프 크기(런처별 셀 크기 차이).
+- `hiltViewModel` deprecation 경고: androidx.hilt 의 새 패키지(`hilt-lifecycle-viewmodel-compose`)로 이전 가능.
+- 위젯 설정 화면은 Android 12 미만에서 '재구성'이 없어 위젯을 다시 추가해야 설정을 바꿀 수 있다.
+- 로그인/서버 동기화: `AuthRepository`, `SyncRepository` 구현 교체 + 로컬 userId 이관.
 - targetSdk 37 플랫폼이 나와 있으나 AGP 8.13 기준 36 사용. AGP 9 이전 후 올릴 것.

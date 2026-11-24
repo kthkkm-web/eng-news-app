@@ -155,8 +155,9 @@ class RoutineEditViewModel @Inject constructor(
         val err = validate(s)
         if (err != null) { _state.update { it.copy(error = err) }; return }
         viewModelScope.launch {
-            routines.saveRoutine(s.toRoutine())
-            events.send(EditEvent.Saved)
+            runCatching { routines.saveRoutine(s.toRoutine()) }
+                .onSuccess { events.send(EditEvent.Saved) }
+                .onFailure { e -> _state.update { it.copy(error = "저장하지 못했어요: ${e.message}") } }
         }
     }
 

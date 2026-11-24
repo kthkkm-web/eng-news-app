@@ -26,7 +26,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material.icons.outlined.HelpOutline
+import androidx.compose.material.icons.automirrored.outlined.HelpOutline
 import androidx.compose.material.icons.rounded.CalendarMonth
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Delete
@@ -292,7 +292,7 @@ private fun ToggleRow(title: String, checked: Boolean, onHelp: (() -> Unit)? = n
     val c = AppTheme.colors
     Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(title, color = c.textPrimary, fontSize = 16.sp)
-        if (onHelp != null) Icon(Icons.Outlined.HelpOutline, "도움말", tint = c.textTertiary, modifier = Modifier.padding(start = 6.dp).size(20.dp).clickable(onClick = onHelp))
+        if (onHelp != null) Icon(Icons.AutoMirrored.Outlined.HelpOutline, "도움말", tint = c.textTertiary, modifier = Modifier.padding(start = 6.dp).size(20.dp).clickable(onClick = onHelp))
         Spacer(Modifier.weight(1f))
         AppSwitch(checked, onChange)
     }

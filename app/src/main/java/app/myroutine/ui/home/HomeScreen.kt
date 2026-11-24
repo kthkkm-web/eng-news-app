@@ -32,7 +32,7 @@ import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowUp
-import androidx.compose.material.icons.rounded.Undo
+import androidx.compose.material.icons.automirrored.rounded.Undo
 import androidx.compose.material.icons.rounded.ViewAgenda
 import androidx.compose.material.icons.rounded.ViewHeadline
 import androidx.compose.material3.DropdownMenu
@@ -304,7 +304,7 @@ private fun completeAction(onTrigger: () -> Unit): SwipeAction {
 @Composable
 private fun cancelAction(onTrigger: () -> Unit): SwipeAction {
     val c = AppTheme.colors
-    return SwipeAction(Icons.Rounded.Undo, "취소", c.danger, Color.White, onTrigger)
+    return SwipeAction(Icons.AutoMirrored.Rounded.Undo, "취소", c.danger, Color.White, onTrigger)
 }
 
 @Composable
