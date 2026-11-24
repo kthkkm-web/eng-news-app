@@ -141,6 +141,9 @@ class RoutineRepositoryImpl @Inject constructor(
     override suspend fun resetLog(routineId: String, date: LocalDate) =
         mutateLog(routineId, date) { log, _ -> log.copy(count = 0, value = null, timestamps = emptyList()) }
 
+    override suspend fun setLog(routineId: String, date: LocalDate, count: Int, value: Double?, timestamps: List<Long>) =
+        mutateLog(routineId, date) { log, _ -> log.copy(count = count.coerceAtLeast(0), value = value, timestamps = timestamps) }
+
     private suspend fun mutateLog(
         routineId: String,
         date: LocalDate,

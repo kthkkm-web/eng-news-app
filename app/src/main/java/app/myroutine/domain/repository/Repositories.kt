@@ -41,6 +41,8 @@ interface RoutineRepository {
     suspend fun setCount(routineId: String, date: LocalDate, count: Int)
     suspend fun setValue(routineId: String, date: LocalDate, value: Double?)
     suspend fun resetLog(routineId: String, date: LocalDate)
+    /** 되돌리기용: 기록을 통째로 지정. */
+    suspend fun setLog(routineId: String, date: LocalDate, count: Int, value: Double?, timestamps: List<Long>)
 }
 
 interface TagRepository {

@@ -26,7 +26,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.compose.ui.unit.dp
+import app.myroutine.ui.home.HomeScreen
+import app.myroutine.ui.edit.RoutineEditScreen
 import app.myroutine.ui.theme.AppTheme
+
+object Routes {
+    const val EDIT = "routine/edit?id={id}&template={template}"
+    const val TAGS = "tags"
+    fun edit(id: String? = null, template: String? = null): String =
+        "routine/edit?id=${id.orEmpty()}&template=${template.orEmpty()}"
+}
 
 enum class TopTab(val route: String, val label: String, val icon: ImageVector) {
     HOME("home", "홈", Icons.Rounded.Home),
@@ -72,10 +84,26 @@ fun AppNavHost() {
             }
         },
     ) { padding ->
-        NavHost(nav, startDestination = TopTab.HOME.route, modifier = Modifier.padding(padding)) {
-            TopTab.entries.forEach { tab ->
-                composable(tab.route) { Placeholder(tab.label) }
+        NavHost(nav, startDestination = TopTab.HOME.route, modifier = Modifier.padding(bottom = if (showBar) padding.calculateBottomPadding() else 0.dp)) {
+            composable(TopTab.HOME.route) {
+                HomeScreen(
+                    onAddRoutine = { nav.navigate(Routes.edit()) },
+                    onEditRoutine = { id -> nav.navigate(Routes.edit(id = id)) },
+                )
             }
+            composable(TopTab.TEMPLATES.route) { Placeholder(TopTab.TEMPLATES.label) }
+            composable(TopTab.TIMELINE.route) { Placeholder(TopTab.TIMELINE.label) }
+            composable(TopTab.PROFILE.route) { Placeholder(TopTab.PROFILE.label) }
+            composable(
+                Routes.EDIT,
+                arguments = listOf(
+                    navArgument("id") { type = NavType.StringType; nullable = true; defaultValue = null },
+                    navArgument("template") { type = NavType.StringType; nullable = true; defaultValue = null },
+                ),
+            ) {
+                RoutineEditScreen(onBack = { nav.popBackStack() }, onManageTags = { nav.navigate(Routes.TAGS) })
+            }
+            composable(Routes.TAGS) { Placeholder("태그 관리") }
         }
     }
 }

@@ -43,6 +43,13 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 - 서명: `keystore/myroutine-dev.keystore`(비밀번호 `myroutine`)로 debug/release 모두 서명.
   어디서 빌드해도 같은 키 → 덮어쓰기 설치 시 데이터 유지. 공개 배포용 아님.
 
+## 화면 스크린샷 (시각 확인)
+에뮬레이터 없이 Robolectric + Roborazzi 로 실제 앱(Hilt+Room)을 렌더링한다.
+```bash
+./gradlew testDebugUnitTest -Pscreenshots --tests '*ScreenshotTest*'   # → app/build/screenshots/*.png
+```
+`-Pscreenshots` 없이 돌리면 스크린샷 테스트는 건너뛴다. Robolectric 런타임 jar 는 Gradle 이 받아 오프라인 모드로 쓴다.
+
 ## 데이터 모델 원칙
 - 모든 엔티티: `id`(UUID 문자열), `userId`, `createdAt`, `updatedAt`, `deletedAt?`(soft delete)
 - 날짜 `"yyyy-MM-dd"`, 시각 `"HH:mm"` 문자열 저장. FK 없음(동기화 순서 문제 회피).
@@ -62,11 +69,15 @@ export ANDROID_HOME=$HOME/android-sdk        # local.properties 의 sdk.dir 로�
 9. **스와이프**: 홈 루틴 항목을 왼쪽으로 밀면 그날 목표치까지 완료 처리, 오른쪽으로 밀면 그날 기록 취소(0으로).
    실수 대비 스낵바 "되돌리기" 제공.
 10. 강조색 민트(#3DDC97), 기본 다크 테마.
+11. 2열 그리드 보기에서는 드래그 정렬 미지원(다른 보기에서 정렬). 스와이프는 지원.
+12. 탭으로는 목표치를 넘겨 기록하지 않는다(완료 후 탭 → 안내 스낵바). 미래 날짜는 기록 불가.
+13. 태그는 루틴당 여러 개 가능. 태그별 그룹에서는 해당 태그마다 표시된다.
+14. 할 일 정렬: 미완료 → 시간 있는 것(시간순) → 시간 없는 것.
 
 ## 진행 상황
 - [x] Phase 1: 프로젝트 세팅, Room 엔티티/DAO, Auth·Sync 스텁, ScheduleResolver + 유닛 테스트 13개
-- [ ] Phase 2: 홈(주간 스트립, +1 기록, 카드형, 스와이프) + 루틴 추가·수정
-- [ ] Phase 3: 보기 모드 3종, 그룹 모드, 필터, 드래그 정렬, 할 일
+- [x] Phase 2: 홈(주간 스트립, +1 기록, 카드형, 스와이프) + 루틴 추가·수정 (색상 테마 시트, 이모지 시트)
+- [x] Phase 3: 보기 모드 3종, 그룹 모드, 필터, 드래그 정렬, 할 일 (Phase 2와 함께 구현)
 - [ ] Phase 4: 타임라인·통계
 - [ ] Phase 5: Glance 위젯 (5a 2x2 3종 / 5b 흐름·일일·주간 / 5c 그래프 2종)
 - [ ] Phase 6: 알림

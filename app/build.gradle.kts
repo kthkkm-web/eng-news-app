@@ -7,6 +7,12 @@ plugins {
     alias(libs.plugins.hilt)
 }
 
+val robolectricRuntime: Configuration by configurations.creating { isTransitive = false }
+val syncRobolectricJars = tasks.register<Sync>("syncRobolectricJars") {
+    from(robolectricRuntime)
+    into(layout.buildDirectory.dir("robolectric-jars"))
+}
+
 android {
     namespace = "app.myroutine"
     compileSdk = 36
@@ -54,6 +60,17 @@ android {
     }
     testOptions {
         unitTests.isReturnDefaultValues = true
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            // ./gradlew testDebugUnitTest -Pscreenshots 로 스크린샷 기록 (app/build/screenshots/)
+            it.systemProperty("roborazzi.test.record", "true")
+            it.systemProperty("screenshots.enabled", project.hasProperty("screenshots").toString())
+            it.maxHeapSize = "3g"
+            // Robolectric 런타임 jar 는 Gradle 이 받아두고 오프라인 모드로 사용 (프록시/429 회피)
+            it.dependsOn(syncRobolectricJars)
+            it.systemProperty("robolectric.offline", "true")
+            it.systemProperty("robolectric.dependency.dir", layout.buildDirectory.dir("robolectric-jars").get().asFile.absolutePath)
+        }
     }
 }
 
@@ -104,4 +121,13 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
+    robolectricRuntime("org.robolectric:android-all-instrumented:15-robolectric-13954326-i7")
+    testImplementation(libs.roborazzi)
+    testImplementation(libs.roborazzi.compose)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.androidx.test.ext)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
 }
